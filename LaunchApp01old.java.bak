@@ -1,0 +1,186 @@
+package com.cypherestudios.ad02.apartado01;
+
+import com.cypherestudios.ad02.model.Empleado;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
+
+/**
+ * Tarea AD02 - Acceso a Datos - Apartado 1
+ *
+ * @author Victor Visús
+ */
+public class LaunchApp01old {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+
+        /**
+         * *********************************************************************
+         * Crear un fichero EMPLEADOS.DAT de acceso aleatorio, que inicialmente
+         * contenga al menos ocho empleados. Dicho fichero tendrá la siguiente
+         * estructura de campos para cada registro: CODEMP (int), NOMBRE
+         * (string), APELLIDOS(string), DIRECCION (string), POBLACION (string),
+         * CP (int), SALARIO (float) y ANTIGUEDAD (int).
+         */
+        // Creamos un fichero EMPLEADOS.DAT con ocho registros de la clase Empleado
+        String fileName = "EMPLEADOS.DAT";
+
+        // Creamos un ArrayList para almacenar los empleados
+        ArrayList<Empleado> empleados = new ArrayList<>();
+
+        // Creamos los ocho empleados, y se almacenan en el ArrayList
+        empleados.add(new Empleado(1, "Antonio", "Rogriguez Menda", "Calle de A. Rodriguez, 3", "Albacete", 02002, 1500, 3));
+        empleados.add(new Empleado(2, "Aitor", "Erastegui Mujica", "Calle de A. E. Mujica, 34", "Bilbao", 48007, 1700, 1));
+        empleados.add(new Empleado(3, "Miguel Angel", "Garcia Fijinoca", "Calle de M.A. Garcia, 5", "Cuenca", 16004, 1200, 1));
+        empleados.add(new Empleado(4, "Isabela", "de la Palma", "Calle de Isabelina, 6", "Segovia", 40002, 1780, 5));
+        empleados.add(new Empleado(5, "Ana Maria", "Ferrer Bernad", "Calle de A. Bernad Perez, 65", "Gijón", 33207, 1400, 2));
+        empleados.add(new Empleado(6, "Victor", "García Yo", "Calle de Victor, 18", "Zaragoza", 50002, 1700, 5));
+        empleados.add(new Empleado(7, "Jesus", "Villaplana Lahoz", "Calle de Jesus Lahoz, 3", "Teruel", 44002, 2500, 8));
+        empleados.add(new Empleado(8, "Marta", "Ballester Rubio", "Calle de Martita, 96", "Madrid", 28080, 1500, 3));
+
+        File file = new File(fileName);
+        try {
+            // Escribir los empleados en el archivo
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+
+            for (Empleado emp : empleados) {
+                emp.escribirEmpleado(raf);
+            }
+            //System.out.println("Archivo EMPLEADOS.DAT creado correctamente." + "\n");
+
+            /*
+            // Lee los nombres de los empleados almacenados en el fichero
+            System.out.println("Estos son los nombres de los empleados que incluye el archivo:");
+            for (int i = 0; i < empleados.size(); i++) {
+                Empleado emp = new Empleado();
+                emp.leerEmpleado(raf, i * Empleado.TAMANIO_REGISTRO);
+                System.out.println("Empleado " + (i + 1) + ": " + emp.getNombre());
+            }
+             */
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LaunchApp01.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(LaunchApp01.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+
+        /**
+         * *********************************************************************
+         * A partir de los datos del fichero EMPLEADOS.DAT, crear un fichero
+         * llamado EMPLEADOS.XML usando DOM.
+         *
+         */
+        final String DAT_FILE_NAME = "EMPLEADOS.DAT";
+        final String XML_FILE_NAME = "EMPLEADOS.XML";
+
+        try {
+            RandomAccessFile raf = new RandomAccessFile(DAT_FILE_NAME, "r");
+            //long fileLength = raf.length();
+            //int recordLength = 300; // Asumiendo que cada registro tiene una longitud fija de 300 bytes
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            DOMImplementation implementation = builder.getDOMImplementation();
+            //Document document = builder.newDocument();
+            Document document = implementation.createDocument(null, null, null);
+            document.setXmlVersion("1.0");
+            document.setXmlStandalone(true);
+
+            Element rootEmpleados = document.createElement("Empleados");
+            document.appendChild(rootEmpleados);
+
+            int totalEmpleados = (int) (raf.length() / Empleado.TAMANIO_REGISTRO);
+//
+//            for (int i = 0; i < totalEmpleados; i++) {
+            int i = 0;
+            while (i < totalEmpleados) {
+                Empleado empleado = new Empleado();
+                empleado.leerEmpleado(raf, i * Empleado.TAMANIO_REGISTRO);
+
+                Element empleadoElement = document.createElement("empleado");
+                rootEmpleados.appendChild(empleadoElement);
+
+                //crea el nodo xml codigo **************************************
+                Element codigoElement = document.createElement("codigo");
+                Text txtCodigo = document.createTextNode(String.valueOf(empleado.getCodEmp()));
+                codigoElement.appendChild(txtCodigo);
+                empleadoElement.appendChild(codigoElement);
+                //crea el nodo xml nombre **************************************
+                Element nombreElement = document.createElement("nombre");
+                Text txtNombre = document.createTextNode(empleado.getNombre());
+                nombreElement.appendChild(txtNombre);
+                empleadoElement.appendChild(nombreElement);
+                //crea el nodo xml apellidos ***********************************
+                Element apellidosElement = document.createElement("apellidos");
+                Text txtApellidos = document.createTextNode(empleado.getApellidos());
+                apellidosElement.appendChild(txtApellidos);
+                empleadoElement.appendChild(apellidosElement);
+                //crea el nodo xml direccion ***********************************
+                Element direccionElement = document.createElement("direccion");
+                Text txtDireccion = document.createTextNode(empleado.getDireccion());
+                direccionElement.appendChild(txtDireccion);
+                empleadoElement.appendChild(direccionElement);
+                //crea el nodo xml poblacion ***********************************
+                Element poblacionElement = document.createElement("poblacion");
+                Text txtPoblacion = document.createTextNode(empleado.getPoblacion());
+                poblacionElement.appendChild(txtPoblacion);
+                empleadoElement.appendChild(poblacionElement);
+                //crea el nodo xml cp ******************************************
+                Element cpElement = document.createElement("cp");
+                Text txtCp = document.createTextNode(String.valueOf(empleado.getCp()));
+                cpElement.appendChild(txtCp);
+                empleadoElement.appendChild(cpElement);
+                //crea el nodo xml salario *************************************
+                Element salarioElement = document.createElement("salario");
+                Text txtSalario = document.createTextNode(String.valueOf(empleado.getSalario()));
+                salarioElement.appendChild(txtSalario);
+                empleadoElement.appendChild(salarioElement);
+                //crea el nodo xml antiguedad **********************************
+                Element antiguedadElement = document.createElement("antiguedad");
+                Text txtAntiguedad = document.createTextNode(String.valueOf(empleado.getAntiguedad()));
+                antiguedadElement.appendChild(txtAntiguedad);
+                empleadoElement.appendChild(antiguedadElement);
+
+                i++;
+            }
+            raf.close();
+
+            // Transformar el documento en un archivo XML
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(XML_FILE_NAME);
+            transformer.transform(source, result);
+            System.out.println("Archivo EMPLEADOS.XML creado correctamente.");
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LaunchApp01.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException | TransformerException | IOException ex) {
+            Logger.getLogger(LaunchApp01.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libros>	
+	<libro anyo="1994">
+		<titulo>TCP/IP Illustrated</titulo>
+		<autor>
+			<apellido>Stevens</apellido>
+			<nombre>W.</nombre>
+		</autor>
+		<editorial>Addison-Wesley</editorial>
+		<precio> 65.95</precio>
+	</libro>
+	<libro anyo="2008">
+		<titulo>Gestion de Bases de datos</titulo>
+		<autor>
+			<apellido>Hueso</apellido>
+			<nombre>Luis</nombre>
+		</autor>
+		<editorial>Ra-ma</editorial>
+		<precio>35.95</precio>
+	</libro>
+	<libro anyo="2011">
+		<titulo>Gestion de Bases de datos</titulo>
+		<autores>
+			<autor>
+				<apellido>Lopez</apellido>
+				<nombre>Iván</nombre>
+			</autor>
+			<autor>
+				<apellido>Castellanos</apellido>
+				<nombre>Maria Jesus</nombre>
+			</autor>
+		</autores>
+		<editorial>Garceta</editorial>
+		<precio>39.95</precio>
+	</libro>
+		<libro anyo="2012">
+		<titulo>Bases de datos</titulo>
+			<autor>
+				<apellido>Corcoles</apellido>
+				<nombre>Jose Eduardo</nombre>
+			</autor>
+		<editorial>Ed. Ra-ma</editorial>
+		<precio>24.95</precio>
+	</libro>
+		<libro anyo="2016">
+		<titulo>Acceso a datos</titulo>
+		<autores>
+			<autor>
+				<apellido>Ramos</apellido>
+				<nombre>Alicia</nombre>
+			</autor>
+			<autor>
+				<apellido>Ramos</apellido>
+				<nombre>Maria Jesus</nombre>
+			</autor>
+		</autores>
+		<editorial>Garceta</editorial>
+		<precio>45.95</precio>
+	</libro>
+	<libro anyo="2013">
+		<titulo>Acceso a datos</titulo>
+			<autor>
+				<apellido>Corcoles</apellido>
+				<nombre>Jose Eduardo</nombre>
+			</autor>
+		<editorial>Ed. Ra-ma</editorial>
+		<precio>25.95</precio>
+	</libro>
+</libros>
