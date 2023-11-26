@@ -34,7 +34,7 @@ public class OptionsPanel extends javax.swing.JFrame {
         jtPassengersList = new javax.swing.JTable();
         btnShowPassengers = new javax.swing.JButton();
         labelCodVueloFlights = new javax.swing.JLabel();
-        cbxListDestinationFlight = new javax.swing.JComboBox<>();
+        cbxListCodeFlight = new javax.swing.JComboBox<>();
         btnDisplayFlightPassengers = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         btnModifyPassengers = new javax.swing.JButton();
@@ -51,6 +51,11 @@ public class OptionsPanel extends javax.swing.JFrame {
         rbtnSmokingYes = new javax.swing.JRadioButton();
         rbtnSmokingNo = new javax.swing.JRadioButton();
         btnSavePassenger = new javax.swing.JButton();
+        labelFlightDestination = new javax.swing.JLabel();
+        txtFlightDestination = new javax.swing.JTextField();
+        txtFlightOrigin = new javax.swing.JTextField();
+        labelFlightOrigin = new javax.swing.JLabel();
+        labelListCodeFlight = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,7 +64,7 @@ public class OptionsPanel extends javax.swing.JFrame {
 
         btnDeleteAllData.setText("Eliminar todos los datos");
 
-        jpPassengers.setBorder(javax.swing.BorderFactory.createTitledBorder("PASAJEROS"));
+        jpPassengers.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), null), "PASAJEROS"));
 
         jtPassengersList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jtPassengersList.setModel(new javax.swing.table.DefaultTableModel(
@@ -95,15 +100,22 @@ public class OptionsPanel extends javax.swing.JFrame {
 
         labelCodVueloFlights.setText("Selecciona un vuelo:");
 
-        cbxListDestinationFlight.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
+        cbxListCodeFlight.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxListCodeFlightItemStateChanged(evt);
+            }
+        });
 
         btnDisplayFlightPassengers.setText("Ver pasajeros del vuelo");
 
+        jSeparator1.setForeground(new java.awt.Color(153, 153, 153));
+
         btnModifyPassengers.setText("Modificar pasajeros del vuelo");
 
+        jSeparator2.setForeground(new java.awt.Color(153, 153, 153));
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jpPassengerManagement.setBorder(javax.swing.BorderFactory.createTitledBorder("Gestión de Pasajeros"));
+        jpPassengerManagement.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 153), null), "Gestión de Pasajeros"));
 
         jLabel2.setText("Selecciona un pasajero de la tabla para modificarlo");
 
@@ -189,6 +201,12 @@ public class OptionsPanel extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        labelFlightDestination.setText("Destino:");
+
+        labelFlightOrigin.setText("Procedencia:");
+
+        labelListCodeFlight.setText("Código:");
+
         javax.swing.GroupLayout jpPassengersLayout = new javax.swing.GroupLayout(jpPassengers);
         jpPassengers.setLayout(jpPassengersLayout);
         jpPassengersLayout.setHorizontalGroup(
@@ -206,16 +224,31 @@ public class OptionsPanel extends javax.swing.JFrame {
                         .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
                             .addGroup(jpPassengersLayout.createSequentialGroup()
-                                .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnDisplayFlightPassengers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelCodVueloFlights, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnDisplayFlightPassengers)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbxListDestinationFlight, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnModifyPassengers)))))
+                                .addComponent(btnModifyPassengers))))
                     .addGroup(jpPassengersLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jpPassengerManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jpPassengerManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jpPassengersLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelCodVueloFlights, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jpPassengersLayout.createSequentialGroup()
+                                .addComponent(labelFlightDestination)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtFlightDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(24, 24, 24)
+                        .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpPassengersLayout.createSequentialGroup()
+                                .addComponent(labelListCodeFlight)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbxListCodeFlight, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jpPassengersLayout.createSequentialGroup()
+                                .addComponent(labelFlightOrigin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtFlightOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(20, 20, 20))
         );
         jpPassengersLayout.setVerticalGroup(
@@ -225,15 +258,21 @@ public class OptionsPanel extends javax.swing.JFrame {
                 .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpPassengersLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addComponent(btnShowPassengers))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPassengersLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
                         .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelCodVueloFlights)
-                            .addComponent(cbxListDestinationFlight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(cbxListCodeFlight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelListCodeFlight))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelFlightDestination)
+                            .addComponent(txtFlightDestination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFlightOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelFlightOrigin))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jpPassengersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDisplayFlightPassengers, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnModifyPassengers, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -271,13 +310,17 @@ public class OptionsPanel extends javax.swing.JFrame {
                     .addComponent(btnDeleteAllData, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jpPassengers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnExit)
-                .addGap(21, 21, 21))
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbxListCodeFlightItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxListCodeFlightItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxListCodeFlightItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -290,7 +333,7 @@ public class OptionsPanel extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -323,7 +366,7 @@ public class OptionsPanel extends javax.swing.JFrame {
     public javax.swing.JButton btnModifyPassengers;
     public javax.swing.JButton btnSavePassenger;
     public javax.swing.JButton btnShowPassengers;
-    public javax.swing.JComboBox<String> cbxListDestinationFlight;
+    public javax.swing.JComboBox<String> cbxListCodeFlight;
     public javax.swing.JComboBox<String> cbxSeatTypePassenger;
     public javax.swing.JLabel jLabel2;
     public javax.swing.JScrollPane jScrollPane1;
@@ -334,12 +377,17 @@ public class OptionsPanel extends javax.swing.JFrame {
     public javax.swing.JTable jtPassengersList;
     private javax.swing.JLabel labelCodVuelo;
     public javax.swing.JLabel labelCodVueloFlights;
+    public javax.swing.JLabel labelFlightDestination;
+    public javax.swing.JLabel labelFlightOrigin;
     public javax.swing.JLabel labelFumadorPassenger;
+    public javax.swing.JLabel labelListCodeFlight;
     public javax.swing.JLabel labelNumPassenger;
     public javax.swing.JLabel labelTipoPlazaPassenger;
     public javax.swing.JRadioButton rbtnSmokingNo;
     public javax.swing.JRadioButton rbtnSmokingYes;
     public javax.swing.JTextField txtCodVuelo;
+    public javax.swing.JTextField txtFlightDestination;
+    public javax.swing.JTextField txtFlightOrigin;
     public javax.swing.JTextField txtNumPassenger;
     // End of variables declaration//GEN-END:variables
 }

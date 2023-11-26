@@ -38,7 +38,7 @@ public class Ad03Exception extends Exception {
                 msjError = "No se ha encontrado ningún pasajero";
                 break;
             case 3:
-                msjError = "mensaje no implementado";
+                msjError = "Por favor, selecciona un vuelo";
                 break;
             case 4:
                 msjError = "mensaje no implementado";

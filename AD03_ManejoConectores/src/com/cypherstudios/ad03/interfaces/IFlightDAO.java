@@ -34,5 +34,5 @@ public interface IFlightDAO {
      *
      * @throws SQLException
      */
-    public abstract void listCodVueloFlight() throws SQLException;
+    //public abstract void listCodVueloFlight() throws SQLException;
 }

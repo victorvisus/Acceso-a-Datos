@@ -1,5 +1,6 @@
 package com.cypherstudios.ad03.controller;
 
+import com.cypherstudios.ad03.dao.FlightDAO;
 import com.cypherstudios.ad03.dao.PassengerDAO;
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
 import com.cypherstudios.ad03.view.OptionsPanel;
@@ -15,15 +16,29 @@ import javax.swing.JOptionPane;
  * @author Victor
  */
 public class CtrlOptionsPanel implements ActionListener {
-
+    
     private OptionsPanel run;
     private PassengerDAO pass = new PassengerDAO();
-
+    
     public CtrlOptionsPanel(OptionsPanel run) {
-
+        
         this.run = run;
+        
+        try {
+            //Completo ComboBox con la lista de vuelos
+            FlightDAO.listCodVueloFlight(run);
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlOptionsPanel.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al cargar los datos"
+                    + "\nMensaje SQLException: " + ex.getMessage()
+                    + "\nCódgio de error: " + ex.getErrorCode());
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error al listar los pasajeros", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //Botón Salir
         this.run.btnExit.addActionListener(this);
-        //Manejo de datos
+
+        //Manejo de datos masivamente
         this.run.btnDeleteAllData.addActionListener(this);
         this.run.btnEnterAllData.addActionListener(this);
 
@@ -35,9 +50,20 @@ public class CtrlOptionsPanel implements ActionListener {
 
         //Vuelos
     }
-
+    
     public void launchApp() {
         run.setVisible(true);
+
+        //Oculto los campos y las etiquetas Destino y procedencia hasta que implemente el cód.
+        run.txtFlightDestination.setEditable(false);
+        run.txtFlightDestination.setVisible(false);
+        run.labelFlightDestination.setVisible(false);
+
+        run.txtFlightOrigin.setEditable(false);
+        run.txtFlightOrigin.setVisible(false);
+        run.labelFlightOrigin.setVisible(false);
+
+        run.labelListCodeFlight.setVisible(false);
 
         //Arranco el formulario con los campos de edición de pasajeros desactivados
         run.txtCodVuelo.setEditable(false);
@@ -53,17 +79,17 @@ public class CtrlOptionsPanel implements ActionListener {
         run.setTitle("Panel de opciones");
         run.setLocationRelativeTo(null);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        
         int numOption = 0;
-
+        
         if (e.getSource() == run.btnExit) {
             //Cierra la aplicación
             System.exit(0);
         }
-
+        
         try {
             if (e.getSource() == run.btnEnterAllData) {
                 evaluateOption(1);
@@ -89,7 +115,7 @@ public class CtrlOptionsPanel implements ActionListener {
                     + "\nCódgio de error: " + ex.getErrorCode());
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error al listar los pasajeros", JOptionPane.ERROR_MESSAGE);
         }
-
+        
     }
 
     /**
@@ -126,8 +152,9 @@ public class CtrlOptionsPanel implements ActionListener {
                 pass.showPassengers(run);
                 break;
             case 4:
-                throw new Ad03Exception(1);
-            //break;
+                pass.displayFlightPassengers(run);
+                //throw new Ad03Exception(1);
+                break;
             case 5:
                 throw new Ad03Exception(1);
             //break;
@@ -138,5 +165,5 @@ public class CtrlOptionsPanel implements ActionListener {
                 throw new Ad03Exception();
         }
     }
-
+    
 }

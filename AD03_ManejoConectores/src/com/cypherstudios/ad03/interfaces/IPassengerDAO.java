@@ -29,7 +29,7 @@ public interface IPassengerDAO {
      *
      * @throws SQLException
      */
-    public abstract void displayFlightPassengers() throws SQLException, Ad03Exception;
+    public void displayFlightPassengers(OptionsPanel run) throws SQLException, Ad03Exception;
 
     /**
      * Modificar los pasajeros de un vuelo (seleccionado desde un desplegable)

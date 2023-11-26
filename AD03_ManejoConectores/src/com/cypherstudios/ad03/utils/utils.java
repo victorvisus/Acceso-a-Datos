@@ -6,11 +6,13 @@ package com.cypherstudios.ad03.utils;
 
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
 
+
 /**
  *
  * @author Victor
  */
 public class utils {
+
 
     /**
      * Evalua si la consulta trae resultados
