@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,7 +32,7 @@ public class CtrlOptionsPanel implements ActionListener {
 
         try {
             //Completo ComboBox con la lista de vuelos
-            FlightDAO.listCodVueloFlight(run);
+            opFly.listCodVueloFlight(run);
         } catch (SQLException ex) {
             Logger.getLogger(CtrlOptionsPanel.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error al cargar los datos"
@@ -115,7 +116,6 @@ public class CtrlOptionsPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
 //        int numOption = 0;
-
         if (e.getSource() == run.btnExit) {
             //Cierra la aplicación
             System.exit(0);
@@ -204,17 +204,18 @@ public class CtrlOptionsPanel implements ActionListener {
                 } else {
                     opPass.deletePassengers(codVuelo);
                     opFly.deleteFlight(codVuelo);
-                    //throw new Ad03Exception(2);
                 }
 
                 JOptionPane.showMessageDialog(null, "Vuelo " + codVuelo + " eliminado correctamente.", "Gestión de vuelos", JOptionPane.INFORMATION_MESSAGE);
+                //Actualiza la lista de vuelos en el combobox
+                opFly.listCodVueloFlight(run);
                 break;
             case 8:
                 //Guardar vuelo - Ej. 5
                 fly = new FlightModel();
 
                 fly.setCodVuelo(run.txtCodVueloIn.getText());
-                //fly.setDepartureTime(run.txtDepartureTimeIn.getText()); ---> OJO modificar el formulario para que sea fecha
+                fly.setDepartureTime((Date) run.dateDepartureIn.getValue());
                 fly.setFlighDestination(run.txtFlighDestinationIn.getText());
                 fly.setFlightOrigin(run.txtFlightOriginIn.getText());
                 fly.setNumEconomySeats(run.txtNumFirstClassSeatIn.getText());
@@ -224,10 +225,12 @@ public class CtrlOptionsPanel implements ActionListener {
 
                 //Compruebo que no existe un vuelo con el mismo código, si existe lanza un error
                 opFly.flightExist(fly.getCodVuelo());
+                opFly.createNewFlight(fly);
 
+                JOptionPane.showMessageDialog(null, "Vuelo " + fly.getCodVuelo() + " añadido correctamente.\n" + fly.toString(), "Gestión de vuelos", JOptionPane.INFORMATION_MESSAGE);
                 JOptionPane.showMessageDialog(null, "Vuelo " + fly.getCodVuelo() + " añadido correctamente.", "Gestión de vuelos", JOptionPane.INFORMATION_MESSAGE);
                 cleanInputs();
-                throw new Ad03Exception(1);
+            //throw new Ad03Exception(1);
             //break;
             default:
                 throw new Ad03Exception();
@@ -250,7 +253,7 @@ public class CtrlOptionsPanel implements ActionListener {
         run.rbtnSmokingYes.setEnabled(false);
 
         run.txtCodVueloIn.setText(null);
-        //run.txtDepartureTimeIn.setText(null); ---> OJO modificar el formulario para que sea fecha
+        //run.dateDepartureIn.setValue(null); -- Quiero resetear este campo
         run.txtFlighDestinationIn.setText(null);
         run.txtFlightOriginIn.setText(null);
         run.txtNumFirstClassSeatIn.setText(null);

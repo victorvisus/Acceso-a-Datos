@@ -62,7 +62,6 @@ public class OptionsPanel extends javax.swing.JFrame {
         labelHoraSalidaIn = new javax.swing.JLabel();
         labelDestinoIn = new javax.swing.JLabel();
         txtCodVueloIn = new javax.swing.JTextField();
-        txtDepartureTimeIn = new javax.swing.JTextField();
         txtFlighDestinationIn = new javax.swing.JTextField();
         txtFlightOriginIn = new javax.swing.JTextField();
         labelHoraSalidaIn1 = new javax.swing.JLabel();
@@ -75,6 +74,7 @@ public class OptionsPanel extends javax.swing.JFrame {
         txtNumFirstClassSeatIn = new javax.swing.JTextField();
         txtNumEconomySeatsIn = new javax.swing.JTextField();
         btnSaveFlight = new javax.swing.JButton();
+        dateDepartureIn = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -307,7 +307,7 @@ public class OptionsPanel extends javax.swing.JFrame {
 
         labelCodVueloIn.setText("Código de vuelo:");
 
-        labelHoraSalidaIn.setText("Hora de salida:");
+        labelHoraSalidaIn.setText("Fecha y hora de salida:");
 
         labelDestinoIn.setText("Destino:");
 
@@ -317,8 +317,6 @@ public class OptionsPanel extends javax.swing.JFrame {
                 txtCodVueloInActionPerformed(evt);
             }
         });
-
-        txtDepartureTimeIn.setPreferredSize(new java.awt.Dimension(140, 22));
 
         txtFlighDestinationIn.setPreferredSize(new java.awt.Dimension(140, 22));
 
@@ -344,6 +342,9 @@ public class OptionsPanel extends javax.swing.JFrame {
 
         btnSaveFlight.setText("Guardar Vuelo");
         btnSaveFlight.setPreferredSize(new java.awt.Dimension(150, 23));
+
+        dateDepartureIn.setModel(new javax.swing.SpinnerDateModel());
+        dateDepartureIn.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -376,8 +377,8 @@ public class OptionsPanel extends javax.swing.JFrame {
                                 .addComponent(labelHoraSalidaIn))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtDepartureTimeIn, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(txtCodVueloIn, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                                .addComponent(txtCodVueloIn, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(dateDepartureIn))
                             .addGap(21, 21, 21)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(labelHoraSalidaIn1)
@@ -399,7 +400,7 @@ public class OptionsPanel extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelHoraSalidaIn1)
                             .addComponent(txtFlightOriginIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDepartureTimeIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(dateDepartureIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelDestinoIn)
@@ -527,6 +528,7 @@ public class OptionsPanel extends javax.swing.JFrame {
     public javax.swing.JButton btnShowPassengers;
     public javax.swing.JComboBox<String> cbxListCodeFlight;
     public javax.swing.JComboBox<String> cbxSeatTypePassenger;
+    public javax.swing.JSpinner dateDepartureIn;
     public javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JScrollPane jScrollPane1;
@@ -554,7 +556,6 @@ public class OptionsPanel extends javax.swing.JFrame {
     public javax.swing.JRadioButton rbtnSmokingYes;
     public javax.swing.JTextField txtCodVuelo;
     public javax.swing.JTextField txtCodVueloIn;
-    public javax.swing.JTextField txtDepartureTimeIn;
     public javax.swing.JTextField txtFlighDestinationIn;
     public javax.swing.JTextField txtFlightDestination;
     public javax.swing.JTextField txtFlightOrigin;

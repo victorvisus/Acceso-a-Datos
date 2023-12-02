@@ -2,6 +2,7 @@ package com.cypherstudios.ad03.dao;
 
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
 import com.cypherstudios.ad03.interfaces.IFlightDAO;
+import com.cypherstudios.ad03.model.FlightModel;
 import com.cypherstudios.ad03.view.OptionsPanel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,22 +21,28 @@ public class FlightDAO extends Conexion implements IFlightDAO {
     private String sql = "";
 
 //    private String codVuelo;
-
     @Override
     public void listFlights(OptionsPanel run) throws SQLException, Ad03Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void createNewFlight(OptionsPanel run) throws SQLException, Ad03Exception {
+    public void createNewFlight(FlightModel fly) throws SQLException, Ad03Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void deleteFlight(String codVuelo) throws SQLException, Ad03Exception {
+        String where = "";
+
+        //Evaluamos que la variable campo no este vacia, si no esta vacia añade la clausula where a la consulta
+        if (!"".equals(codVuelo)) {
+            where = "WHERE cod_vuelo = '" + codVuelo + "'";
+        }
+
         con = getConexion();
 
-        sql = "DELETE FROM vuelos WHERE (cod_vuelo = '" + codVuelo + "');";
+        sql = "DELETE FROM vuelos " + where + ";";
 
         ps = con.prepareStatement(sql);
         ps.executeUpdate();
@@ -45,14 +52,11 @@ public class FlightDAO extends Conexion implements IFlightDAO {
     }
 
     //@Override
-    public static void listCodVueloFlight(OptionsPanel run) throws SQLException {
-        //Cargamos datos en el comboBox
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Conexion conn = new Conexion();
-        Connection con = conn.getConexion();
+    public void listCodVueloFlight(OptionsPanel run) throws SQLException {
+        run.cbxListCodeFlight.removeAllItems();
 
-        String sql = "SELECT cod_vuelo FROM vuelos";
+        con = getConexion();
+        sql = "SELECT cod_vuelo FROM vuelos";
 
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -64,16 +68,11 @@ public class FlightDAO extends Conexion implements IFlightDAO {
         rs.close();
     }
 
-    public static String listDestinatioFlight(String codVuelo) throws SQLException {
+    public String listDestinatioFlight(String codVuelo) throws SQLException {
         String dest = "";
 
-        //Cargamos datos en el comboBox
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Conexion conn = new Conexion();
-        Connection con = conn.getConexion();
-
-        String sql = "SELECT destino FROM vuelos WHERE cod_vuelo = " + codVuelo + ";";
+        con = getConexion();
+        sql = "SELECT destino FROM vuelos WHERE cod_vuelo = " + codVuelo + ";";
 
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -108,24 +107,25 @@ public class FlightDAO extends Conexion implements IFlightDAO {
      * @return
      * @throws SQLException
      */
-    public int countFlights(String codVuelo) throws SQLException {
+    private int countFlights(String codVuelo) throws SQLException {
         int num = 0;
 
         con = getConexion();
 
         //Cuenta los usuario que tiene el mismo nick que el introducido
-        sql = "SELECT count(cod_vuelo) FROM vuelos WHERE cod_vuelo = ?";
+        sql = "SELECT count(cod_vuelo) AS cuenta FROM vuelos WHERE cod_vuelo = ?";
 
         ps = con.prepareStatement(sql);
         ps.setString(1, codVuelo);
         rs = ps.executeQuery();
 
         while (rs.next()) {
-            num = rs.getInt("numero");
+            num = rs.getInt("cuenta");
         }
 
         con.close();
 
         return num;
     }
+
 }

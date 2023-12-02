@@ -5,6 +5,7 @@
 package com.cypherstudios.ad03.interfaces;
 
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
+import com.cypherstudios.ad03.model.FlightModel;
 import com.cypherstudios.ad03.view.OptionsPanel;
 import java.sql.SQLException;
 
@@ -30,7 +31,7 @@ public interface IFlightDAO {
      * @throws SQLException
      * @throws com.cypherstudios.ad03.exceptions.Ad03Exception
      */
-    public abstract void createNewFlight(OptionsPanel run) throws SQLException, Ad03Exception;
+    public abstract void createNewFlight(FlightModel fly) throws SQLException, Ad03Exception;
 
     /**
      * Eliminar un vuelo existente en la base de datos. (Ej 6)
