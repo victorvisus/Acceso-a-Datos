@@ -4,6 +4,8 @@
  */
 package com.cypherstudios.ad03.interfaces;
 
+import com.cypherstudios.ad03.exceptions.Ad03Exception;
+import com.cypherstudios.ad03.view.OptionsPanel;
 import java.sql.SQLException;
 
 /**
@@ -12,21 +14,32 @@ import java.sql.SQLException;
  */
 public interface IFlightDAO {
 
-    public abstract void listFlights() throws SQLException;
+    /**
+     * Listar los vuelos existentes en la base de datos
+     *
+     * @param run
+     * @throws SQLException
+     * @throws Ad03Exception
+     */
+    public abstract void listFlights(OptionsPanel run) throws SQLException, Ad03Exception;
 
     /**
-     * Dar de alta un nuevo vuelo con todos sus valores. (5)
+     * Dar de alta un nuevo vuelo con todos sus valores. (Ej 5)
      *
+     * @param run
      * @throws SQLException
+     * @throws com.cypherstudios.ad03.exceptions.Ad03Exception
      */
-    public abstract void createNewFlight() throws SQLException;
+    public abstract void createNewFlight(OptionsPanel run) throws SQLException, Ad03Exception;
 
     /**
-     * Eliminar un vuelo existente en la base de datos. (6)
+     * Eliminar un vuelo existente en la base de datos. (Ej 6)
      *
+     * @param run
      * @throws SQLException
+     * @throws com.cypherstudios.ad03.exceptions.Ad03Exception
      */
-    public abstract void deleteFlight() throws SQLException;
+    public void deleteFlight(String codVuelo) throws SQLException, Ad03Exception;
 
     /**
      * Extrae el Destino y el código de todos los vuelos, para poder añadirlos a

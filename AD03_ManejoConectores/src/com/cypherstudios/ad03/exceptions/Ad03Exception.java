@@ -41,16 +41,17 @@ public class Ad03Exception extends Exception {
                 msjError = "Por favor, selecciona un vuelo";
                 break;
             case 4:
-                msjError = "mensaje no implementado";
+                msjError = "No hay pasajeros para este vuelo";
                 break;
             case 5:
-                msjError = "mensaje no implementado";
+                msjError = "Selecciona un pasajero de la tabla";
                 break;
             case 6:
-                msjError = "mensaje no implementado";
+                msjError = "El vuelo del pasajero seleccionado no corresponde con el vuelo seleccionado para modificar.\n"
+                        + "Elije un pasajero del vuelo seleccionado";
                 break;
             case 7:
-                msjError = "mensaje no implementado";
+                msjError = "El vuelo que intentas dar de alta ya existe";
                 break;
             case 8:
                 msjError = "mensaje no implementado";

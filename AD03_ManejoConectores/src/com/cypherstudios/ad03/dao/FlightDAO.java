@@ -1,5 +1,6 @@
 package com.cypherstudios.ad03.dao;
 
+import com.cypherstudios.ad03.exceptions.Ad03Exception;
 import com.cypherstudios.ad03.interfaces.IFlightDAO;
 import com.cypherstudios.ad03.view.OptionsPanel;
 import java.sql.Connection;
@@ -13,19 +14,34 @@ import java.sql.SQLException;
  */
 public class FlightDAO extends Conexion implements IFlightDAO {
 
+    private PreparedStatement ps = null;
+    private ResultSet rs = null;
+    private Connection con = null;
+    private String sql = "";
+
+//    private String codVuelo;
+
     @Override
-    public void listFlights() throws SQLException {
+    public void listFlights(OptionsPanel run) throws SQLException, Ad03Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void createNewFlight() throws SQLException {
+    public void createNewFlight(OptionsPanel run) throws SQLException, Ad03Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void deleteFlight() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void deleteFlight(String codVuelo) throws SQLException, Ad03Exception {
+        con = getConexion();
+
+        sql = "DELETE FROM vuelos WHERE (cod_vuelo = '" + codVuelo + "');";
+
+        ps = con.prepareStatement(sql);
+        ps.executeUpdate();
+
+        con.close();
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     //@Override
@@ -69,4 +85,47 @@ public class FlightDAO extends Conexion implements IFlightDAO {
         return dest;
     }
 
+    /**
+     * Comprueba, mediante una consulta a la base de datos, si hay algún vuelo
+     * que se corresponda con el código enviado, si es afirmativo devuelve true
+     *
+     * @param codVuelo
+     * @return
+     * @throws SQLException
+     * @throws Ad03Exception
+     */
+    public void flightExist(String codVuelo) throws SQLException, Ad03Exception {
+        if (countFlights(codVuelo) > 0) {
+            throw new Ad03Exception(7);
+        }
+        //throw new Ad03Exception(1);
+    }
+
+    /**
+     * Comprueba que el vuelo seleccionado tenga pasajeros
+     *
+     * @param codVuelo
+     * @return
+     * @throws SQLException
+     */
+    public int countFlights(String codVuelo) throws SQLException {
+        int num = 0;
+
+        con = getConexion();
+
+        //Cuenta los usuario que tiene el mismo nick que el introducido
+        sql = "SELECT count(cod_vuelo) FROM vuelos WHERE cod_vuelo = ?";
+
+        ps = con.prepareStatement(sql);
+        ps.setString(1, codVuelo);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            num = rs.getInt("numero");
+        }
+
+        con.close();
+
+        return num;
+    }
 }

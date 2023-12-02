@@ -4,8 +4,8 @@
  */
 package com.cypherstudios.ad03.utils;
 
-import com.cypherstudios.ad03.exceptions.Ad03Exception;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -13,18 +13,20 @@ import com.cypherstudios.ad03.exceptions.Ad03Exception;
  */
 public class utils {
 
-
     /**
      * Evalua si la consulta trae resultados
      *
-     * @param num
+     * @param rs
      * @return
-     * @throws Ad03Exception
+     * @throws SQLException
      */
-    public static int evaluteResult(int num) throws Ad03Exception {
-        if (num == 0) {
-            throw new Ad03Exception(2);
+    public static int countResults(ResultSet rs) throws SQLException {
+        int resultsCount = 0;
+        while (rs.next()) {
+            //Obtienes la data que necesitas...
+            resultsCount++;
         }
-        return num;
+
+        return resultsCount;
     }
 }
