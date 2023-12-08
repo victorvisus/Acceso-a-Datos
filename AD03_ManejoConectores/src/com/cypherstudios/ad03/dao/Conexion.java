@@ -3,6 +3,7 @@ package com.cypherstudios.ad03.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +49,8 @@ public class Conexion {
 
         } catch (SQLException | ClassNotFoundException ex) {
             System.err.println(ex);
+            JOptionPane.showMessageDialog(null, (ex + "\nComprueba los datos de conexión"), "Error en la Conexión", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
         return con;
     }

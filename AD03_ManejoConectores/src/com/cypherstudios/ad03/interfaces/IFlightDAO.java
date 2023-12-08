@@ -5,6 +5,7 @@
 package com.cypherstudios.ad03.interfaces;
 
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
+import com.cypherstudios.ad03.model.FlightArrayList;
 import com.cypherstudios.ad03.model.FlightModel;
 import com.cypherstudios.ad03.view.OptionsPanel;
 import java.sql.SQLException;
@@ -14,6 +15,16 @@ import java.sql.SQLException;
  * @author Victor
  */
 public interface IFlightDAO {
+
+    /**
+     * Inserta, mediante DML, los datos referentes a los pasajeros, en la base
+     * de datos.
+     *
+     * @param run
+     * @throws SQLException
+     * @throws Ad03Exception
+     */
+    public abstract void insertFlights(FlightArrayList frl) throws SQLException, Ad03Exception;
 
     /**
      * Listar los vuelos existentes en la base de datos

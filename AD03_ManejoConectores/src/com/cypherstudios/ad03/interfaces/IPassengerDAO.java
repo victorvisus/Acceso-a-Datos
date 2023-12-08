@@ -5,6 +5,7 @@
 package com.cypherstudios.ad03.interfaces;
 
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
+import com.cypherstudios.ad03.model.PassengersArrayList;
 import com.cypherstudios.ad03.view.OptionsPanel;
 import java.sql.SQLException;
 
@@ -13,6 +14,16 @@ import java.sql.SQLException;
  * @author Victor
  */
 public interface IPassengerDAO {
+
+    /**
+     * Inserta, mediante DML, los datos referentes a los pasajeros, en la base
+     * de datos.
+     *
+     * @param run
+     * @throws SQLException
+     * @throws Ad03Exception
+     */
+    public abstract void insertPassengers(PassengersArrayList prl) throws SQLException, Ad03Exception;
 
     /**
      * Listar/Mostrar la información de todos los pasajeros. (3)

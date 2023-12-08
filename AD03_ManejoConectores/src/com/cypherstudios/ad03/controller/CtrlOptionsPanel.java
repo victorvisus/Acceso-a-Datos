@@ -3,50 +3,79 @@ package com.cypherstudios.ad03.controller;
 import com.cypherstudios.ad03.dao.FlightDAO;
 import com.cypherstudios.ad03.dao.PassengerDAO;
 import com.cypherstudios.ad03.exceptions.Ad03Exception;
+import com.cypherstudios.ad03.model.ExampleDataConstructor;
 import com.cypherstudios.ad03.model.FlightModel;
+import com.cypherstudios.ad03.utils.utils;
 import com.cypherstudios.ad03.view.OptionsPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * Controlador que gestiona la lógica de la interfaz gráfica de usuario (GUI)
+ * representada por la clase OptionsPanel.
  *
  * @author Victor
  */
 public class CtrlOptionsPanel implements ActionListener {
 
-    private OptionsPanel run;
-    private PassengerDAO opPass = new PassengerDAO();
+    private final OptionsPanel run;
+    protected final PassengerDAO opPass = new PassengerDAO();
     protected final FlightDAO opFly = new FlightDAO();
     private FlightModel fly;
 
+    /**
+     * Constructor que recibe una instancia de OptionsPanel para gestionar sus
+     * eventos.
+     *
+     * @param run La instancia de OptionsPanel asociada al controlador.
+     */
     public CtrlOptionsPanel(OptionsPanel run) {
-
+        // Inicializa la instancia de OptionsPanel //
         this.run = run;
 
+        // Lógica para cargar datos y configurar la interfaz //
         try {
-            //Completo ComboBox con la lista de vuelos
-            opFly.listCodVueloFlight(run);
+            //Completo ComboBox con la lista de vuelos, 1º comprueba que exista la tabla vuelos
+            if (!opFly.checkTableVuelos()) {
+                JOptionPane.showMessageDialog(null, "La tabla vuelos no existe.\nPrimero deberas Importar los datos de ejemplo,\nen este proceso se creará la tabla.", "Crear", JOptionPane.ERROR_MESSAGE);
+
+                //Manejo de datos masivamente
+                this.run.btnDeleteAllData.setEnabled(false);
+
+                //Pasajeros
+                this.run.btnShowPassengers.setEnabled(false);
+                this.run.btnDisplayFlightPassengers.setEnabled(false);
+                this.run.btnModifyPassengers.setEnabled(false);
+                this.run.jtPassengersList.setEnabled(false);
+
+                //vuelos
+                this.run.btnDeleteFlight.setEnabled(false);
+                this.run.btnSaveFlight.setEnabled(false);
+            } else {
+                opFly.listCodVueloFlight(run);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CtrlOptionsPanel.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error al cargar los datos"
                     + "\nMensaje SQLException: " + ex.getMessage()
                     + "\nCódgio de error: " + ex.getErrorCode());
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error al listar los pasajeros", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error al listar los vuelos en el ComboBox", JOptionPane.ERROR_MESSAGE);
         }
 
+        // Configuración de eventos y botones //
+        //
         //Botón Salir
         this.run.btnExit.addActionListener(this);
 
         //Manejo de datos masivamente
         this.run.btnDeleteAllData.addActionListener(this);
-        this.run.btnEnterAllData.addActionListener(this);
+        this.run.btnInsertAllData.addActionListener(this);
 
         //Pasajeros
         this.run.btnShowPassengers.addActionListener(this);
@@ -74,7 +103,13 @@ public class CtrlOptionsPanel implements ActionListener {
         this.run.btnSaveFlight.addActionListener(this);
     }
 
+    /**
+     * Inicia la aplicación y muestra la interfaz gráfica.
+     */
     public void launchApp() {
+        // Configuración inicial de la interfaz //
+        //
+        // Muestra la interfaz gráfica
         run.setVisible(true);
 
         //Oculto los campos y las etiquetas Destino y procedencia hasta que implemente el cód.
@@ -108,14 +143,14 @@ public class CtrlOptionsPanel implements ActionListener {
         run.btnSavePassenger.setEnabled(false);
 
         // Establezco el titulo y la posición en la pantalla
-        run.setTitle("Panel de opciones");
+        run.setTitle("Panel de opciones - Tarea AD03");
         run.setLocationRelativeTo(null);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Manejo de eventos de botones //
 
-//        int numOption = 0;
         if (e.getSource() == run.btnExit) {
             //Cierra la aplicación
             System.exit(0);
@@ -123,7 +158,7 @@ public class CtrlOptionsPanel implements ActionListener {
 
         //Botones
         try {
-            if (e.getSource() == run.btnEnterAllData) {
+            if (e.getSource() == run.btnInsertAllData) {
                 evaluateOption(1);
             } else if (e.getSource() == run.btnDeleteAllData) {
                 evaluateOption(2);
@@ -146,7 +181,7 @@ public class CtrlOptionsPanel implements ActionListener {
             //Logger.getLogger(CtrlOptionsPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Gestión de vuelos", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            System.out.println("Error al listar los pasajeros"
+            System.err.println("Error al listar los pasajeros"
                     + "\nMensaje SQLException: " + ex.getMessage()
                     + "\nCódgio de error: " + ex.getErrorCode());
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error al listar los pasajeros", JOptionPane.ERROR_MESSAGE);
@@ -155,21 +190,37 @@ public class CtrlOptionsPanel implements ActionListener {
     }
 
     /**
-     * Evaluado el int recibido y llama al método correspondiente
+     * Método para evaluar la opción seleccionada y realizar la acción
+     * correspondiente.
      *
-     * @param numOption
-     * @throws Ad03Exception
+     * @param numOption El número de la opción seleccionada.
+     * @throws Ad03Exception Si ocurre una excepción específica de Ad03.
+     * @throws SQLException Si ocurre una excepción SQL.
      */
     private void evaluateOption(int numOption) throws SQLException, Ad03Exception {
+        // Lógica para evaluar y realizar acciones según la opción seleccionada //
         switch (numOption) {
             case 1:
                 //Importar datos de ejemplo - Ej. 1
-                throw new Ad03Exception(1);
-            //break;
+                opFly.insertFlights(ExampleDataConstructor.constExampleDataFlights());
+                opFly.listCodVueloFlight(run);
+                opPass.insertPassengers(ExampleDataConstructor.constExampleDataPassengers());
+
+                JOptionPane.showMessageDialog(null, "Datos de ejemplo insertados correctamente",
+                        "AD03 - Tarea", JOptionPane.INFORMATION_MESSAGE);
+                enableButtons();
+                break;
             case 2:
                 //ELiminar todos los datos de la bbd - Ej. 2
-                throw new Ad03Exception(1);
-            //break;
+                opPass.deletePassengers("");
+                JOptionPane.showMessageDialog(null, "Pasajeros eliminados",
+                        "AD03 - Tarea", JOptionPane.INFORMATION_MESSAGE);
+
+                opFly.deleteFlight("");
+                JOptionPane.showMessageDialog(null, "Vuelos eliminados",
+                        "AD03 - Tarea", JOptionPane.INFORMATION_MESSAGE);
+                run.cbxListCodeFlight.removeAllItems();
+                break;
             case 3:
                 //Listar todos los pasajeros - Ej. 3
                 opPass.showPassengers(run);
@@ -180,17 +231,13 @@ public class CtrlOptionsPanel implements ActionListener {
                 break;
             case 5:
                 //Modificar Pasajeros - Ej.7: btn que activa los campos para modificar
-                if (!run.txtCodVuelo.getText().equals("")) {
-                    opPass.modifyPassengers(run);
-                } else {
-                    throw new Ad03Exception(5);
-                }
+                opPass.modifyPassengers(run);
                 break;
             case 6:
                 //Actualizar pasajero en la bbdd - Ej.7: ÇGuardar en la bbdd
                 opPass.savePassengers(run);
                 JOptionPane.showMessageDialog(null, "Pasajero actualizado", "Gestión de pasajeros", JOptionPane.INFORMATION_MESSAGE);
-                cleanInputs();
+                utils.cleanInputs(run);
                 break;
             case 7:
                 //Eliminar vuelo - Ej. 6
@@ -215,51 +262,51 @@ public class CtrlOptionsPanel implements ActionListener {
                 fly = new FlightModel();
 
                 fly.setCodVuelo(run.txtCodVueloIn.getText());
-                fly.setDepartureTime((Date) run.dateDepartureIn.getValue());
+                if (utils.checkHour(run.hourDepartureIn.getText())) {
+                    fly.setDepartureTime(run.dateDepartureIn.getDate(), run.hourDepartureIn.getText());
+                }
                 fly.setFlighDestination(run.txtFlighDestinationIn.getText());
                 fly.setFlightOrigin(run.txtFlightOriginIn.getText());
-                fly.setNumEconomySeats(run.txtNumFirstClassSeatIn.getText());
-                fly.setNumFirstClassSeat(run.txtNumFirstClassSeatIn.getText());
-                fly.setNumNonSmokingSeat(run.txtNumNonSmokingSeatIn.getText());
-                fly.setNumSmokingSeat(run.txtNumSmokingSeatIn.getText());
+                fly.setNumEconomySeats(Integer.parseInt(run.txtNumFirstClassSeatIn.getText()));
+                fly.setNumFirstClassSeat(Integer.parseInt(run.txtNumFirstClassSeatIn.getText()));
+                fly.setNumNonSmokingSeat(Integer.parseInt(run.txtNumNonSmokingSeatIn.getText()));
+                fly.setNumSmokingSeat(Integer.parseInt(run.txtNumSmokingSeatIn.getText()));
 
                 //Compruebo que no existe un vuelo con el mismo código, si existe lanza un error
                 opFly.flightExist(fly.getCodVuelo());
                 opFly.createNewFlight(fly);
 
                 JOptionPane.showMessageDialog(null, "Vuelo " + fly.getCodVuelo() + " añadido correctamente.\n" + fly.toString(), "Gestión de vuelos", JOptionPane.INFORMATION_MESSAGE);
-                JOptionPane.showMessageDialog(null, "Vuelo " + fly.getCodVuelo() + " añadido correctamente.", "Gestión de vuelos", JOptionPane.INFORMATION_MESSAGE);
-                cleanInputs();
-            //throw new Ad03Exception(1);
-            //break;
+
+                //Limpia los campos del formulario
+                utils.cleanInputs(run);
+                //Actualiza la lista de buelos en el desplegable
+                opFly.listCodVueloFlight(run);
+
+                break;
             default:
                 throw new Ad03Exception();
         }
     }
 
     /**
-     * Limpiar el formulario
+     * Método para habilitar botones en la interfaz gráfica.
      */
-    private void cleanInputs() {
-        run.txtCodVuelo.setText(null);
-        run.txtCodVuelo.setEnabled(false);
-        run.txtNumPassenger.setText(null);
-        run.txtNumPassenger.setEnabled(false);
-        run.cbxSeatTypePassenger.setSelectedIndex(0);
-        run.cbxSeatTypePassenger.setEnabled(false);
-        run.rbtnSmokingNo.setSelected(false);
-        run.rbtnSmokingNo.setEnabled(false);
-        run.rbtnSmokingYes.setSelected(false);
-        run.rbtnSmokingYes.setEnabled(false);
+    private void enableButtons() {
 
-        run.txtCodVueloIn.setText(null);
-        //run.dateDepartureIn.setValue(null); -- Quiero resetear este campo
-        run.txtFlighDestinationIn.setText(null);
-        run.txtFlightOriginIn.setText(null);
-        run.txtNumFirstClassSeatIn.setText(null);
-        run.txtNumFirstClassSeatIn.setText(null);
-        run.txtNumNonSmokingSeatIn.setText(null);
-        run.txtNumSmokingSeatIn.setText(null);
+        //Manejo de datos masivamente
+        this.run.btnDeleteAllData.setEnabled(true);
+
+        //Pasajeros
+        this.run.btnShowPassengers.setEnabled(true);
+        this.run.btnDisplayFlightPassengers.setEnabled(true);
+        this.run.btnModifyPassengers.setEnabled(true);
+        this.run.jtPassengersList.setEnabled(true);
+
+        //vuelos
+        this.run.btnDeleteFlight.setEnabled(true);
+        this.run.btnSaveFlight.setEnabled(true);
+
     }
 
 }

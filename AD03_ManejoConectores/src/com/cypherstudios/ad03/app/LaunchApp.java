@@ -10,15 +10,17 @@ import com.cypherstudios.ad03.view.OptionsPanel;
 public class LaunchApp {
 
     /**
+     * Lanza la aplicación
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        OptionsPanel form = new OptionsPanel();
+        OptionsPanel run = new OptionsPanel();
 
-        CtrlOptionsPanel ctrl = new CtrlOptionsPanel(form);
+        CtrlOptionsPanel ctrl = new CtrlOptionsPanel(run);
 
         ctrl.launchApp();
-        form.setVisible(true);
+        run.setVisible(true);
     }
 
 }

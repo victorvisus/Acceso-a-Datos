@@ -9,13 +9,13 @@ import java.util.Date;
 public class FlightModel {
 
     private String codVuelo;
-    private Date DepartureTime;
-    private String FlighDestination;
-    private String FlightOrigin;
-    private String NumEconomySeats;
-    private String NumFirstClassSeat;
-    private String NumNonSmokingSeat;
-    private String NumSmokingSeat;
+    private String departureTime;
+    private String flighDestination;
+    private String flightOrigin;
+    private int numEconomySeats;
+    private int numFirstClassSeat;
+    private int numNonSmokingSeat;
+    private int numSmokingSeat;
 
     public FlightModel() {
     }
@@ -23,15 +23,15 @@ public class FlightModel {
         this.codVuelo = codVuelo;
     }
 
-    public FlightModel(String codVuelo, Date DepartureTime, String FlighDestination, String FlightOrigin, String NumEconomySeats, String NumFirstClassSeat, String NumNonSmokingSeat, String NumSmokingSeat) {
+    public FlightModel(String codVuelo, String DepartureTime, String FlighDestination, String FlightOrigin, int NumEconomySeats, int NumFirstClassSeat, int NumNonSmokingSeat, int NumSmokingSeat) {
         this.codVuelo = codVuelo;
-        this.DepartureTime = DepartureTime;
-        this.FlighDestination = FlighDestination;
-        this.FlightOrigin = FlightOrigin;
-        this.NumEconomySeats = NumEconomySeats;
-        this.NumFirstClassSeat = NumFirstClassSeat;
-        this.NumNonSmokingSeat = NumNonSmokingSeat;
-        this.NumSmokingSeat = NumSmokingSeat;
+        this.departureTime = DepartureTime;
+        this.flighDestination = FlighDestination;
+        this.flightOrigin = FlightOrigin;
+        this.numEconomySeats = NumEconomySeats;
+        this.numFirstClassSeat = NumFirstClassSeat;
+        this.numNonSmokingSeat = NumNonSmokingSeat;
+        this.numSmokingSeat = NumSmokingSeat;
     }
 
     public String getCodVuelo() {
@@ -42,65 +42,77 @@ public class FlightModel {
         this.codVuelo = codVuelo;
     }
 
-    public Date getDepartureTime() {
-        return DepartureTime;
+    public String getDepartureTime() {
+        return departureTime;
     }
 
-    public void setDepartureTime(Date DepartureTime) {
-        this.DepartureTime = DepartureTime;
+    public void setDepartureTime(Date dateDeparture, String hourDeparture) {
+        String departure = "";
+
+        Date date = dateDeparture;
+        long d = date.getTime();
+        java.sql.Date format = new java.sql.Date(d);
+
+        departure = format + "-" + hourDeparture;
+
+        this.departureTime = departure;
+    }
+
+    public void setDepartureTime(String departure) {
+        this.departureTime = departure;
     }
 
     public String getFlighDestination() {
-        return FlighDestination;
+        return flighDestination;
     }
 
     public void setFlighDestination(String FlighDestination) {
-        this.FlighDestination = FlighDestination;
+        this.flighDestination = FlighDestination;
     }
 
     public String getFlightOrigin() {
-        return FlightOrigin;
+        return flightOrigin;
     }
 
     public void setFlightOrigin(String FlightOrigin) {
-        this.FlightOrigin = FlightOrigin;
+        this.flightOrigin = FlightOrigin;
     }
 
-    public String getNumEconomySeats() {
-        return NumEconomySeats;
+    public int getNumEconomySeats() {
+        return numEconomySeats;
     }
 
-    public void setNumEconomySeats(String NumEconomySeats) {
-        this.NumEconomySeats = NumEconomySeats;
+    public void setNumEconomySeats(int NumEconomySeats) {
+        this.numEconomySeats = NumEconomySeats;
     }
 
-    public String getNumFirstClassSeat() {
-        return NumFirstClassSeat;
+    public int getNumFirstClassSeat() {
+        return numFirstClassSeat;
     }
 
-    public void setNumFirstClassSeat(String NumFirstClassSeat) {
-        this.NumFirstClassSeat = NumFirstClassSeat;
+    public void setNumFirstClassSeat(int NumFirstClassSeat) {
+        this.numFirstClassSeat = NumFirstClassSeat;
     }
 
-    public String getNumNonSmokingSeat() {
-        return NumNonSmokingSeat;
+    public int getNumNonSmokingSeat() {
+        return numNonSmokingSeat;
     }
 
-    public void setNumNonSmokingSeat(String NumNonSmokingSeat) {
-        this.NumNonSmokingSeat = NumNonSmokingSeat;
+    public void setNumNonSmokingSeat(int NumNonSmokingSeat) {
+        this.numNonSmokingSeat = NumNonSmokingSeat;
     }
 
-    public String getNumSmokingSeat() {
-        return NumSmokingSeat;
+    public int getNumSmokingSeat() {
+        return numSmokingSeat;
     }
 
-    public void setNumSmokingSeat(String NumSmokingSeat) {
-        this.NumSmokingSeat = NumSmokingSeat;
+    public void setNumSmokingSeat(int NumSmokingSeat) {
+        this.numSmokingSeat = NumSmokingSeat;
     }
 
     @Override
     public String toString() {
-        return "FlightModel{" + "codVuelo=" + codVuelo + ", DepartureTime=" + DepartureTime + ", FlighDestination=" + FlighDestination + ", FlightOrigin=" + FlightOrigin + ", NumEconomySeats=" + NumEconomySeats + ", NumFirstClassSeat=" + NumFirstClassSeat + ", NumNonSmokingSeat=" + NumNonSmokingSeat + ", NumSmokingSeat=" + NumSmokingSeat + '}';
+        return "Datos del vuelo\n" + "codVuelo: " + codVuelo + ", DepartureTime: " + departureTime + ", FlighDestination: " + flighDestination + ", FlightOrigin: " + flightOrigin + "\nNumEconomySeats: " + numEconomySeats + ", NumFirstClassSeat: " + numFirstClassSeat + ", NumNonSmokingSeat: " + numNonSmokingSeat + ", NumSmokingSeat: " + numSmokingSeat + '}';
     }
 
 }
