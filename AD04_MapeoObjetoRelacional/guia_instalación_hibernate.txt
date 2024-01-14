@@ -1,0 +1,17 @@
+Instalación Plugin Hibernate.
+
+- Acceder a los plugins de hibernate.
+- evisar que tenéis habilitado el netbeans 8.2 plugin portal (http://updates.netbeans.org/netbeans/updates/8.2/uc/final/distribution/catalog.xml.gz)
+- Ir a la pestaña de updates y revisar que no hay ningún update pendiente (instalar los que hyan pendientes)
+- Si están todos los updates instalados, en available plugins debería de aparecer hibernate. Lo instalamos
+- Si en la instalación de hibernate nos da un error (version 238 freemarker ). Cerrar netbeans y copiar el fichero abajo adjunto (org-netbeans-libs-freemarker.jar) en la carpeta de instalación de netbeans.
+	(C:\Program Files\NetBeans-XX\netbeans\ide\modules). No sobreescribais el fichero original, primero renombrarlo a org-netbeans-libs-freemarker_v0.jar
+- Volver a abrir netbeans y probar de nuevo la instalación del plugin de netbeans.
+
+- Si en la nueva instalación nos aparecer un error relacionado con (unpack200.exe), es porque vuestra versión de jdk no tiene el fichero.
+- Para solventar este error, debéis descargar el java runtime environment (jre).
+- Una vez descargado, accedeis a la carpeta bin donde esta instalado el jre y copiais el fichero unpack200.
+- Pegaís el fichero copiado en la carpeta bin del jdk que tengáis instalado.
+
+
+

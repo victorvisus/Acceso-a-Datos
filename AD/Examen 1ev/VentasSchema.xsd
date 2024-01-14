@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+ <xsd:element name="VentasC" type="ListadoRType"/>
+ <xsd:element name="comentario" type="xsd:string"/>
+
+ <xsd:complexType name="ListadoRType">
+	<xsd:sequence>
+		<xsd:element name="cliente" type="Cliente"/>
+		<xsd:element name="ventas" type="Ventas"/>
+	</xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:complexType name="Cliente">
+	<xsd:sequence>
+		<xsd:element name="dni" type="xsd:string"/>
+	   <xsd:element name="nombre" type="xsd:string"/>
+	   <xsd:element name="apellidos" type="xsd:string"/>
+	   <xsd:element name="direccion" type="xsd:string"/>
+	   <xsd:element name="cp" type="xsd:integer"/>
+	   <xsd:element name="poblacion" type="xsd:string"/>
+	   <xsd:element name="email" type="xsd:string"/>
+	</xsd:sequence>
+ </xsd:complexType>
+    
+ <xsd:complexType name="Ventas">
+	<xsd:sequence>
+		<xsd:element name="lventa" minOccurs="1" maxOccurs="unbounded">
+			<xsd:complexType>
+				<xsd:sequence>
+					<xsd:element name="articulo" type="xsd:string"/>
+					<xsd:element name="fecha_compra" type="xsd:dateTime"/>
+					<xsd:element name="pagado" type="xsd:string"/>
+					<xsd:element name="precio" type="xsd:float"/>
+					<xsd:element name="descuento" type="xsd:integer"/>
+					<xsd:element name="unidades" type="xsd:integer"/>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>

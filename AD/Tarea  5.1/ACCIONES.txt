@@ -1,0 +1,9 @@
+-Crear una nueva conexion en SQLDeveloper.
+-Crear un nuevo usuario.
+-Insertar el script de prueba para crear la BBDD y introducir los datos.
+-Crear en Netbeans un nuevo proyecto.
+
+
+-Tutorial Java SE 52 Patron DAO
+-Java JDBC DAO [Makigas] (5 videos)
+-BDOR01 [Caso practico puerto carga] / [Caso practico empresa mensajeria]

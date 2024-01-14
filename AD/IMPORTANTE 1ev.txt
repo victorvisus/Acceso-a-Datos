@@ -1,0 +1,21 @@
+RandomAccessFile (metodos writeChar,writeInt)
+StringBuffer
+DocumentBuilderFactory 
+DocumentBuilder
+Document
+Element
+Source
+Result
+Transformer
+
+NodeList
+Node
+
+SAXParserFactory
+SAXParser
+
+DOMImplementation
+
+TAREA 1
+-Saber crear documentos desde Netbeans
+-Saber leer documentos desde Netbeans 
